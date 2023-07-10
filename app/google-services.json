@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "19675954775",
+    "project_id": "bluecoin-e37e2",
+    "storage_bucket": "bluecoin-e37e2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:19675954775:android:3ece59783551b15415ad12",
+        "android_client_info": {
+          "package_name": "com.krypt.bluecoin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "19675954775-igm1nnibc855p48tvlb68bpebmbphjpr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBQXxx_BLzyXcfzdheLs0UMYi7PkvMDkQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "19675954775-igm1nnibc855p48tvlb68bpebmbphjpr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

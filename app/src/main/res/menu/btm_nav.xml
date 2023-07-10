@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:icon="@drawable/card"
+        android:title="Pay"
+        android:id="@+id/pay_id"
+        />
+    <item
+        android:title="Message"
+        android:id="@+id/message_id"
+        android:icon="@drawable/message"
+        />
+    <item
+        android:icon="@drawable/account"
+        android:title="Account"
+        android:id="@+id/account_id"
+        />
+</menu>

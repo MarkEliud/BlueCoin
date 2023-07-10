@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">BluePay</string>
+    <string name="slogan">Instant and Secure payments</string>
+    <string name="link_reg">Don\'t have an account? <b>Create one.</b></string>
+    <string name="link_pass">Forgot password?</string>
+    <string name="agree">By Registering you agree with TnC</string>
+
+
+</resources>
