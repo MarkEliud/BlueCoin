@@ -3,13 +3,18 @@
 
     <item
         android:icon="@drawable/card"
-        android:title="Pay"
-        android:id="@+id/pay_id"
+        android:title="Home"
+        android:id="@+id/home_id"
         />
     <item
-        android:title="Message"
-        android:id="@+id/message_id"
-        android:icon="@drawable/message"
+        android:title="Send"
+        android:id="@+id/send_id"
+        android:icon="@drawable/send"
+        />
+    <item
+        android:title="Deposit"
+        android:id="@+id/deposit_id"
+        android:icon="@drawable/deposit"
         />
     <item
         android:icon="@drawable/account"

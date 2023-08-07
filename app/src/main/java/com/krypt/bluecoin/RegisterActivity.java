@@ -3,6 +3,7 @@ package com.krypt.bluecoin;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -12,6 +13,8 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,6 +31,7 @@ import java.util.Map;
 public class RegisterActivity extends AppCompatActivity {
 Button registerBtn;
  FirebaseDatabase firebaseDatabase;
+ private ProgressDialog loadingBar;
  UserModel userModel;
  DatabaseReference databaseReference;
 TextInputEditText edt_username,edt_phoneNo,edt_email,edt_password,edt_password_c;
@@ -44,10 +48,11 @@ TextInputEditText edt_username,edt_phoneNo,edt_email,edt_password,edt_password_c
         edt_password_c=findViewById(R.id.cpass);
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.GONE);
+        loadingBar=new ProgressDialog(this);
 
 
         firebaseDatabase = FirebaseDatabase.getInstance();
-        userModel=new UserModel();
+
    databaseReference = firebaseDatabase.getReference("Clients");
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,26 +128,58 @@ TextInputEditText edt_username,edt_phoneNo,edt_email,edt_password,edt_password_c
         addDatatoFirebase(username,phoneNo,email,password);
     }
         private void addDatatoFirebase(String username, String phone,String email, String password) {
-            userModel.setUsername(username);
-            userModel.setEmail(email);
-            userModel.setPhone(phone);
-            userModel.setPass(password);
 
-            databaseReference.addValueEventListener(new ValueEventListener() {
+
+
+
+
+            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                {
+                    if (!(dataSnapshot.child("Clients").child(username).exists()))
+                    {
+                        HashMap<String, Object> userdataMap = new HashMap<>();
+                        userdataMap.put("phone", phone);
+                        userdataMap.put("password", password);
+                        userdataMap.put("username", username);
+                        userdataMap.put("email", email);
 
-                    databaseReference.child(username).setValue(userModel);
+                        databaseReference.child(username).updateChildren(userdataMap)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task)
+                                    {
+                                        if (task.isSuccessful())
+                                        {
+                                            Toast.makeText(RegisterActivity.this, "Congratulations, your account has been created.", Toast.LENGTH_SHORT).show();
+                                            loadingBar.dismiss();
 
+                                            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                                            startActivity(intent);
+                                        }
+                                        else
+                                        {
+                                            loadingBar.dismiss();
+                                            Toast.makeText(RegisterActivity.this, "Network Error: Please try again after some time...", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                    }
+                    else
+                    {
+                        Toast.makeText(RegisterActivity.this, "username already exists.", Toast.LENGTH_SHORT).show();
+                        loadingBar.dismiss();
+                        Toast.makeText(RegisterActivity.this, "Please try again using another username.", Toast.LENGTH_SHORT).show();
 
-                    Toast.makeText(RegisterActivity.this, "Registered", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(RegisterActivity.this,LoginActivity.class));
+                        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                        startActivity(intent);
+                    }
                 }
 
                 @Override
-                public void onCancelled(@NonNull DatabaseError error) {
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                    Toast.makeText(RegisterActivity.this, "Fail to Register.Try again! " + error, Toast.LENGTH_SHORT).show();
                 }
             });
         }

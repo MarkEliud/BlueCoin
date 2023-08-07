@@ -25,13 +25,16 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id=item.getItemId();
 
-            if (id== R.id.account_id)
-                Toast.makeText(getApplicationContext(), "my acount", Toast.LENGTH_SHORT).show();
-                else if(id==R.id.pay_id)
+            if (id== R.id.home_id)
+                Toast.makeText(getApplicationContext(), "my account", Toast.LENGTH_SHORT).show();
+                else if(id==R.id.send_id)
 
                 Toast.makeText(getApplicationContext(), "add card and pay", Toast.LENGTH_SHORT).show();
-            else if(id==R.id.message_id)
-                Toast.makeText(getApplicationContext(), "Messages and notifications", Toast.LENGTH_SHORT).show();
+            else if(id==R.id.deposit_id)
+
+                Toast.makeText(getApplicationContext(), "deposit", Toast.LENGTH_SHORT).show();
+            else if(id==R.id.account_id)
+                Toast.makeText(getApplicationContext(), "my account", Toast.LENGTH_SHORT).show();
 
 
 

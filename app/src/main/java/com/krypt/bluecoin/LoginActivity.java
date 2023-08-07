@@ -1,7 +1,9 @@
 package com.krypt.bluecoin;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -22,7 +24,9 @@ import com.krypt.bluecoin.User.UserModel;
 
 public class LoginActivity extends AppCompatActivity {
     TextView toreg,forgotpas;
+    private ProgressDialog loadingBar;
     EditText username,password;
+    String parentDbName="Clients";
     Button loginbtn;
     ProgressBar progressBar;
     FirebaseDatabase firebaseDatabase;
@@ -38,13 +42,14 @@ public class LoginActivity extends AppCompatActivity {
         password=findViewById(R.id.edt_password);
         progressBar=findViewById(R.id.progressBar);
         progressBar.setVisibility(View.GONE);
+        loadingBar=new ProgressDialog(this);
 
         forgotpas=findViewById(R.id.txt_link_forgotpass);
         toreg=findViewById(R.id.txt_link_reg);
         loginbtn=findViewById(R.id.btn_login);
         firebaseDatabase = FirebaseDatabase.getInstance();
-        userModel=new UserModel();
-        databaseReference = firebaseDatabase.getReference("Clients");
+
+        databaseReference = firebaseDatabase.getReference();
         forgotpas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,22 +91,41 @@ public class LoginActivity extends AppCompatActivity {
             return;
 
         }
-        databaseReference.addValueEventListener(new ValueEventListener() {
+
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                UserModel post = dataSnapshot.getValue(UserModel.class);
-                Log.e("yy",post.getEmail());
-                System.out.println(post);
-                if(post.getUsername()==usernm && post.getPass()==pass){
-                    Toast.makeText(LoginActivity.this, "Success", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(LoginActivity.this,MainActivity.class));
-                    finish();
-                }else Toast.makeText(LoginActivity.this, "Incorrect credientials"+post.getUsername(), Toast.LENGTH_SHORT).show();
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+            {
+                if (dataSnapshot.child(parentDbName).child(usernm).exists())
+                {
+                    UserModel usersData ;
+                    usersData = dataSnapshot.child(parentDbName).child(usernm).getValue(UserModel.class);
+
+
+                    if (usersData.getPassword().equals(pass))
+                    {
+
+                        Toast.makeText(LoginActivity.this, "logged in Successfully...", Toast.LENGTH_SHORT).show();
+                                loadingBar.dismiss();
+
+                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                              //  Prevalent.currentOnlineUser = usersData;
+                                startActivity(intent);
+
+                        }
+                        else
+                        {
+                            loadingBar.dismiss();
+                            Toast.makeText(LoginActivity.this, " incorrect details.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(LoginActivity.this, "Something went wrong.Try again!", Toast.LENGTH_SHORT).show();
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
 
