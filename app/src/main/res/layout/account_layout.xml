@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+
+android:padding="21dp"
+    android:layout_height="match_parent">
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        app:cardCornerRadius="21dp"
+        app:cardElevation="21dp"
+        >
+        <LinearLayout
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/profileimg_id"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@drawable/account"
+
+                />
+            <TextView
+                android:id="@+id/username_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Okara Isaiah"
+                android:textSize="32dp"
+
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="verified"
+                android:textSize="21dp"
+                android:textColor="@color/white"
+                android:background="@color/blue"
+
+                />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+    <TextView
+        android:id="@+id/verify_accoutid"
+
+        android:layout_marginTop="21dp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Verify your account"
+        android:textSize="21dp"
+
+
+        />
+    <TextView
+        android:id="@+id/id_logout"
+
+        android:layout_marginTop="21dp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Log out"
+        android:textSize="21dp"
+
+
+        />
+    <TextView
+
+        android:layout_marginTop="21dp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="license Terms  and policies"
+        android:textSize="21dp"
+
+
+        />
+    <TextView
+
+        android:layout_marginTop="21dp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Blupay 2023"
+        android:textSize="21dp"
+
+
+        />
+
+
+</LinearLayout>

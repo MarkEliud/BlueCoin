@@ -1,21 +1,37 @@
 package com.krypt.bluecoin.User;
 
 public  class UserModel {
-    String username;
-    String password;
-    String email;
-    String phone;
+    String dCreated;
+    public String username;
+    public String password;
+    public String email;
+    public String phone;
+    public String fname;
+    public String sname;
+    public String userID;
 
     public UserModel()
     {
 
     }
 
-    public UserModel(String username, String password, String email, String phone) {
+    public UserModel(String dCreated, String username, String password, String email, String phone, String fname, String sname, String userID) {
+        this.dCreated = dCreated;
         this.username = username;
         this.password = password;
         this.email = email;
         this.phone = phone;
+        this.fname = fname;
+        this.sname = sname;
+        this.userID = userID;
+    }
+
+    public String getdCreated() {
+        return dCreated;
+    }
+
+    public void setdCreated(String dCreated) {
+        this.dCreated = dCreated;
     }
 
     public String getUsername() {
@@ -48,5 +64,29 @@ public  class UserModel {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getFname() {
+        return fname;
+    }
+
+    public void setFname(String fname) {
+        this.fname = fname;
+    }
+
+    public String getSname() {
+        return sname;
+    }
+
+    public void setSname(String sname) {
+        this.sname = sname;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 }

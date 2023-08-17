@@ -1,5 +1,7 @@
 package com.krypt.bluecoin;
 
+import static com.krypt.bluecoin.utils.Links.URL_LOGIN;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,23 +17,34 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.krypt.bluecoin.User.UserModel;
+import com.krypt.bluecoin.utils.SessionHandler;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
     TextView toreg,forgotpas;
     private ProgressDialog loadingBar;
     EditText username,password;
     String parentDbName="Clients";
+    private SessionHandler session;
     Button loginbtn;
     ProgressBar progressBar;
-    FirebaseDatabase firebaseDatabase;
+    //FirebaseDatabase firebaseDatabase;
     UserModel userModel;
-    DatabaseReference databaseReference;
+    //DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +60,11 @@ public class LoginActivity extends AppCompatActivity {
         forgotpas=findViewById(R.id.txt_link_forgotpass);
         toreg=findViewById(R.id.txt_link_reg);
         loginbtn=findViewById(R.id.btn_login);
-        firebaseDatabase = FirebaseDatabase.getInstance();
-
-        databaseReference = firebaseDatabase.getReference();
+        session = new SessionHandler(LoginActivity.this);
+        userModel = session.getUserDetails();
+//        firebaseDatabase = FirebaseDatabase.getInstance();
+//
+//        databaseReference = firebaseDatabase.getReference();
         forgotpas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-            login(username.getText().toString().trim(),password.getText().toString().trim());
+            login(username.getText().toString(),password.getText().toString());
 
             }
         });
@@ -76,6 +91,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login(String usernm,String pass) {
+        progressBar.setVisibility(View.VISIBLE);
+        loginbtn.setVisibility(View.GONE);
 
         if (TextUtils.isEmpty(usernm)) {
             Toast.makeText(getApplicationContext(), "Enter username", Toast.LENGTH_SHORT).show();
@@ -92,44 +109,81 @@ public class LoginActivity extends AppCompatActivity {
 
         }
 
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
-            {
-                if (dataSnapshot.child(parentDbName).child(usernm).exists())
-                {
-                    UserModel usersData ;
-                    usersData = dataSnapshot.child(parentDbName).child(usernm).getValue(UserModel.class);
 
 
-                    if (usersData.getPassword().equals(pass))
-                    {
 
-                        Toast.makeText(LoginActivity.this, "logged in Successfully...", Toast.LENGTH_SHORT).show();
-                                loadingBar.dismiss();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_LOGIN,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
 
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                              //  Prevalent.currentOnlineUser = usersData;
-                                startActivity(intent);
+                        try {
+                            Log.e("Response", "" + response);
+                            JSONObject jsonObject = new JSONObject(response);
+                            String status = jsonObject.getString("status");
+                            String msg = jsonObject.getString("message");
 
+                            if (status.equals("1")) {
+                                JSONArray jsonArray = jsonObject.getJSONArray("details");
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject jsn = jsonArray.getJSONObject(i);
+                                    String clientID = jsn.getString("clientID");
+                                    String firstname = jsn.getString("firstname");
+                                    String lastname = jsn.getString("lastname");
+                                    String username = jsn.getString("username");
+                                    String phoneNo = jsn.getString("phoneNo");
+                                    String email = jsn.getString("email");
+                                    String dateCreated = jsn.getString("dateCreated");
+
+                                    session.loginUser(clientID, firstname, lastname, username, phoneNo, email, dateCreated);
+                                }
+
+
+                                Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_LONG).show();
+
+                                progressBar.setVisibility(View.GONE);
+                                loginbtn.setVisibility(View.VISIBLE);
+                                LoginActivity.this.onBackPressed();
+                                startActivity(new Intent(LoginActivity.this,MainActivity.class));
+                                finish();
+
+
+                            } else if (status.equals("0")) {
+                                Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
+                                progressBar.setVisibility(View.GONE);
+                                loginbtn.setVisibility(View.VISIBLE);
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Toast.makeText(LoginActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+                            progressBar.setVisibility(View.GONE);
+                            loginbtn.setVisibility(View.VISIBLE);
                         }
-                        else
-                        {
-                            loadingBar.dismiss();
-                            Toast.makeText(LoginActivity.this, " incorrect details.", Toast.LENGTH_SHORT).show();
-                        }
+
                     }
-
-
-            }
-
+                }, new Response.ErrorListener() {
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                Toast.makeText(LoginActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
+                loginbtn.setVisibility(View.VISIBLE);
 
             }
-        });
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("user_name", usernm);
+                params.put("pass_word", pass);
 
 
+                return params;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(LoginActivity.this);
+        requestQueue.add(stringRequest);
 
     }
 

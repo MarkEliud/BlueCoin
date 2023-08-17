@@ -3,22 +3,38 @@ package com.krypt.bluecoin;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ProgressBar;
 import android.widget.Toast;
+
+
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.krypt.bluecoin.Main.Deposit;
+import com.krypt.bluecoin.Main.Home;
+import com.krypt.bluecoin.Main.Profile;
+import com.krypt.bluecoin.Main.Send;
 
 public class MainActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener{
     BottomNavigationView bottomNavigationView;
+    Deposit deposit=new Deposit();
+    Send send=new Send();
+    Home home=new Home();
+    ProgressBar progressBar;
+    Profile profile=new Profile();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        progressBar=new ProgressBar(this);
         bottomNavigationView=findViewById(R.id.bottom_navbar);
         bottomNavigationView.setOnItemSelectedListener(this);
+        getSupportFragmentManager().beginTransaction().replace(R.id.container,home).commit();
     }
 
     @Override
@@ -26,19 +42,38 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         int id=item.getItemId();
 
             if (id== R.id.home_id)
-                Toast.makeText(getApplicationContext(), "my account", Toast.LENGTH_SHORT).show();
+                getSupportFragmentManager().beginTransaction().replace(R.id.container,home).commit();
                 else if(id==R.id.send_id)
 
-                Toast.makeText(getApplicationContext(), "add card and pay", Toast.LENGTH_SHORT).show();
+                getSupportFragmentManager().beginTransaction().replace(R.id.container,send).commit();
             else if(id==R.id.deposit_id)
 
-                Toast.makeText(getApplicationContext(), "deposit", Toast.LENGTH_SHORT).show();
+                getSupportFragmentManager().beginTransaction().replace(R.id.container,deposit).commit();
             else if(id==R.id.account_id)
-                Toast.makeText(getApplicationContext(), "my account", Toast.LENGTH_SHORT).show();
+                getSupportFragmentManager().beginTransaction().replace(R.id.container,profile).commit();
 
 
 
 
+        return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId()==R.id.idlogout){
+            startActivity(new Intent(MainActivity.this,LoginActivity.class));
+            finish();
+
+        }else{
+            Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show();
+
+        }
         return true;
     }
 }

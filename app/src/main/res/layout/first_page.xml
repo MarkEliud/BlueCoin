@@ -7,6 +7,17 @@
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".LoginActivity">
+    <TextView
+        android:textColor="@color/lblue"
+        android:textSize="21dp"
+        android:layout_marginTop="21dp"
+        android:layout_marginEnd="21dp"
+        android:layout_marginStart="21dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create a Personal Account"
+
+        />
 
     <TextView
         android:textColor="@color/lblue"
@@ -54,24 +65,49 @@
             />
 
     </com.google.android.material.textfield.TextInputLayout>
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_marginTop="21dp"
-        android:layout_marginEnd="21dp"
-        android:layout_marginStart="21dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter your username"
+<!--    <LinearLayout-->
+<!--        android:layout_marginTop="21dp"-->
+<!--        android:gravity="center|center_horizontal"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content">-->
 
-        >
-        <com.google.android.material.textfield.TextInputEditText
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
-            android:id="@+id/usernm"
+            android:layout_gravity="center_horizontal"
 
-            />
+            android:layout_marginStart="21dp"
 
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginTop="21dp"
+            android:layout_marginEnd="21dp"
+            android:hint="Enter your username"
+
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/usernm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+
+                />
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+<!--        <Button-->
+<!--            android:id="@+id/validateusrnm"-->
+<!--            android:layout_width="44dp"-->
+<!--            android:layout_height="55dp"-->
+
+<!--            android:drawableLeft="@drawable/deposit"-->
+
+<!--            android:drawableTint="@color/white"-->
+<!--            android:gravity="center" />-->
+
+<!--    </LinearLayout>-->
+
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_marginTop="21dp"
@@ -79,7 +115,7 @@
         android:layout_marginStart="21dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:passwordToggleEnabled="true"
+
         android:hint="Enter your email"
 
         >
@@ -94,12 +130,14 @@
 
 
     <Button
-        android:id="@+id/register_btn"
+        android:textColor="@color/white"
+        android:background="@color/blue"
+        android:id="@+id/next_btn"
         android:layout_marginTop="21dp"
         android:layout_marginEnd="21dp"
         android:layout_marginStart="21dp"
         android:layout_width="match_parent"
-        android:layout_height="58dp"
+        android:layout_height="wrap_content"
         android:text="next"
 
         />

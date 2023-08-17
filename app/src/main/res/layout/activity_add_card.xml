@@ -4,116 +4,91 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
     android:orientation="vertical"
-    tools:context=".LoginActivity">
-
+    android:padding="21dp"
+    android:gravity="center"
+    tools:context=".utils.AddCard">
     <TextView
-        android:textColor="@color/lblue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add card details"
         android:textSize="21dp"
-        android:layout_marginTop="21dp"
-        android:layout_marginEnd="21dp"
-        android:layout_marginStart="21dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Enter your details"
-
         />
     <com.google.android.material.textfield.TextInputLayout
-        android:layout_marginTop="21dp"
-        android:layout_marginEnd="21dp"
-        android:layout_marginStart="21dp"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Phone number"
+        android:hint="Enter your card number"
+        app:startIconDrawable="@drawable/card"
 
         >
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="phone"
-            android:id="@+id/phoneno"
-
+            android:id="@+id/cardno"
+            android:hint="XXXX XXXX XXXX XXXX"
+            android:inputType="number"
             />
 
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
-        android:layout_marginTop="21dp"
-        android:layout_marginEnd="21dp"
-        android:layout_marginStart="21dp"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:passwordToggleEnabled="true"
-        android:hint="Enter your password"
+        android:hint="Enter expiration date"
+        app:startIconDrawable="@drawable/card"
 
         >
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
-            android:id="@+id/pass"
+            android:id="@+id/exdate"
+            android:hint="MM/YY"
+            android:inputType="number"
             />
 
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
-        android:layout_marginTop="21dp"
-        android:layout_marginEnd="21dp"
-        android:layout_marginStart="21dp"
-        app:passwordToggleEnabled="true"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="confirm your password"
+        android:hint="Enter CVC"
+        app:startIconDrawable="@drawable/card"
 
         >
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
-            android:id="@+id/cpass"
-
+            android:id="@+id/cvcno"
+            android:hint="XXX"
+            android:inputType="number"
             />
 
     </com.google.android.material.textfield.TextInputLayout>
-    <ProgressBar
-        android:id="@+id/progressBar"
+    <com.google.android.material.textfield.TextInputLayout
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        />
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:hint="Enter billing address"
+        app:startIconDrawable="@drawable/card"
 
         >
-
-        <CheckBox
-            android:layout_width="wrap_content"
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/billadd"
+
+            android:inputType="number"
             />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/agree"
-            />
-    </LinearLayout>
 
-
-
-
+    </com.google.android.material.textfield.TextInputLayout>
     <Button
-        android:textColor="@color/white"
-        android:background="@color/blue"
-        android:id="@+id/register_btn"
-        android:layout_marginTop="21dp"
-        android:layout_marginEnd="21dp"
-        android:layout_marginStart="21dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Register"
+        android:text="Add"
+        android:id="@+id/addcard"
+
 
         />
-
-
-
 
 </LinearLayout>
