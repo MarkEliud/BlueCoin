@@ -8,6 +8,7 @@ public  class UserModel {
     public String phone;
     public String fname;
     public String sname;
+    public String status;
     public String userID;
 
     public UserModel()
@@ -15,7 +16,7 @@ public  class UserModel {
 
     }
 
-    public UserModel(String dCreated, String username, String password, String email, String phone, String fname, String sname, String userID) {
+    public UserModel(String dCreated, String username, String password, String email, String phone, String fname, String sname, String status, String userID) {
         this.dCreated = dCreated;
         this.username = username;
         this.password = password;
@@ -23,7 +24,16 @@ public  class UserModel {
         this.phone = phone;
         this.fname = fname;
         this.sname = sname;
+        this.status = status;
         this.userID = userID;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getdCreated() {

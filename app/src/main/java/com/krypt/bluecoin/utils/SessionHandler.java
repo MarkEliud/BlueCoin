@@ -14,6 +14,7 @@ public class SessionHandler {
     private static final String KEY_FIRST_NAME = "first_name";
     private static final String KEY_LAST_NAME = "last_name";
     private static final String KEY_EMAIL = "email";
+    private static final String KEY_STATUS = "status";
     private static final String KEY_EXPIRES = "expires";
     private static final String KEY_USER_NAME = "username";
     private static final String KEY_DATE_CREATED = "dateCreated";
@@ -40,7 +41,7 @@ public class SessionHandler {
      * @param username
      */
     public void loginUser(String clientID, String firstname, String lastname, String username, String phoneno,
-                          String email, String dateCreated) {
+                          String email, String dateCreated,String status) {
 
         mEditor.putString(KEY_CLIENT_ID, clientID);
         mEditor.putString(KEY_FIRST_NAME, firstname);
@@ -49,6 +50,8 @@ public class SessionHandler {
         mEditor.putString(KEY_PHONE_NO, phoneno);
         mEditor.putString(KEY_EMAIL, email);
         mEditor.putString(KEY_DATE_CREATED, dateCreated);
+        mEditor.putString(KEY_STATUS, status);
+
       //  mEditor.putString(KEY_USER_TYPE, user_type);
 //        mEditor.putString(KEY_PHOTO_URL, photoUrl);
         Date date = new Date();
@@ -60,7 +63,7 @@ public class SessionHandler {
     }
 
     public void loginUser_2(String ID, String firstname, String lastname, String username, String phoneno,
-                            String email, String dateCreated, String user_type) {
+                            String email, String dateCreated, String user_type,String status) {
 
         mEditor.putString(KEY_ID, ID);
         mEditor.putString(KEY_FIRST_NAME, firstname);
@@ -69,7 +72,8 @@ public class SessionHandler {
         mEditor.putString(KEY_PHONE_NO, phoneno);
         mEditor.putString(KEY_EMAIL, email);
         mEditor.putString(KEY_DATE_CREATED, dateCreated);
-  //      mEditor.putString(KEY_USER_TYPE, user_type);
+        mEditor.putString(KEY_STATUS, status);
+       // mEditor.putString(KEY_USER_TYPE, user_type);
 //        mEditor.putString(KEY_PHOTO_URL, photoUrl);
         Date date = new Date();
 
@@ -124,6 +128,7 @@ public class SessionHandler {
         user.setEmail(mPreferences.getString(KEY_EMAIL, KEY_EMPTY));
         user.setPhone(mPreferences.getString(KEY_PHONE_NO, KEY_EMPTY));
         user.setdCreated(mPreferences.getString(KEY_DATE_CREATED, KEY_EMPTY));
+        user.setStatus(mPreferences.getString(KEY_STATUS, KEY_EMPTY));
 
         return user;
     }

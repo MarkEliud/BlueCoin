@@ -18,7 +18,9 @@
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter your card number"
+        android:hint="XXXX-XXXX-XXXX-XXXX"
+
+        app:helperText="Enter your card number"
         app:startIconDrawable="@drawable/card"
 
         >
@@ -26,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/cardno"
-            android:hint="XXXX XXXX XXXX XXXX"
+
             android:inputType="number"
             />
 
@@ -35,7 +37,11 @@
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter expiration date"
+        app:helperText="Enter expiration date"
+
+
+
+
         app:startIconDrawable="@drawable/card"
 
         >
@@ -44,6 +50,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/exdate"
             android:hint="MM/YY"
+
+
             android:inputType="number"
             />
 
@@ -52,7 +60,8 @@
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter CVC"
+        app:helperText="CVC"
+        android:hint="XXX"
         app:startIconDrawable="@drawable/card"
 
         >
@@ -60,7 +69,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/cvcno"
-            android:hint="XXX"
+
             android:inputType="number"
             />
 
@@ -69,7 +78,8 @@
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter billing address"
+        app:helperText="Enter billing address"
+        android:hint="XXXX XXXX XXXX"
         app:startIconDrawable="@drawable/card"
 
         >
@@ -83,8 +93,13 @@
 
     </com.google.android.material.textfield.TextInputLayout>
     <Button
+        android:layout_marginTop="21dp"
+        android:layout_marginEnd="21dp"
+        android:layout_marginStart="21dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/blue"
+        android:textColor="@color/white"
         android:text="Add"
         android:id="@+id/addcard"
 
