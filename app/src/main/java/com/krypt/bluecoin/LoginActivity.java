@@ -134,8 +134,9 @@ public class LoginActivity extends AppCompatActivity {
                                     String phoneNo = jsn.getString("phoneNo");
                                     String email = jsn.getString("email");
                                     String dateCreated = jsn.getString("dateCreated");
+                                    String statususr = jsn.getString("status");
 
-                                    session.loginUser(clientID, firstname, lastname, username, phoneNo, email, dateCreated);
+                                    session.loginUser(clientID, firstname, lastname, username, phoneNo, email, dateCreated,statususr);
                                 }
 
 

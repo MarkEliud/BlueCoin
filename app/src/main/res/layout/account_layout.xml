@@ -8,9 +8,9 @@ android:padding="21dp"
     android:layout_height="match_parent">
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        app:cardCornerRadius="21dp"
-        app:cardElevation="21dp"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="8dp"
         >
         <LinearLayout
             android:gravity="center"
@@ -29,10 +29,12 @@ android:padding="21dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Okara Isaiah"
-                android:textSize="32dp"
+                android:textSize="21dp"
+                android:textStyle="bold"
 
                 />
             <TextView
+                android:id="@+id/txt_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="verified"

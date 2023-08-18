@@ -3,16 +3,21 @@ package com.krypt.bluecoin.utils;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.krypt.bluecoin.R;
+import com.krypt.bluecoin.User.UserModel;
 
 public class AddCard extends AppCompatActivity {
     Button add;
     EditText billno,cvc,accountno,expno;
+    private SessionHandler session;
+    UserModel user;
+
 
 
     @Override
@@ -24,6 +29,8 @@ public class AddCard extends AppCompatActivity {
         cvc=findViewById(R.id.cvcno);
         accountno=findViewById(R.id.cardno);
         expno=findViewById(R.id.exdate);
+        session = new SessionHandler(getApplicationContext());
+        user = session.getUserDetails();
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -40,6 +47,15 @@ public class AddCard extends AppCompatActivity {
             Toast.makeText(this, "Was Succesful", Toast.LENGTH_SHORT).show();
         }
 
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            session = new SessionHandler(getApplicationContext());
+            user = session.getUserDetails();
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

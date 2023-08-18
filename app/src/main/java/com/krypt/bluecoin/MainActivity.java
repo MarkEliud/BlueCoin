@@ -1,8 +1,10 @@
 package com.krypt.bluecoin;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -67,13 +69,31 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId()==R.id.idlogout){
-            startActivity(new Intent(MainActivity.this,LoginActivity.class));
-            finish();
+            logout();
+
+
 
         }else{
-            Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(MainActivity.this,SettingsActivity.class));
 
         }
         return true;
+    }
+
+    private void logout() {
+         AlertDialog dialog = new AlertDialog.Builder(MainActivity.this).setMessage("Are sure you want exit?")
+
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(new Intent(MainActivity.this,LoginActivity.class));
+                        finish();
+
+                    }
+                }) //Set to null. We override the onclick
+                .setNegativeButton("No", null)
+                .create();
+         dialog.show();
     }
 }
