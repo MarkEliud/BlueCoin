@@ -24,7 +24,7 @@ import com.krypt.bluecoin.Main.Send;
 public class MainActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener{
     BottomNavigationView bottomNavigationView;
     Deposit deposit=new Deposit();
-    Send send=new Send();
+    Send send=new Send();String ans;
     Home home=new Home();
     ProgressBar progressBar;
     Profile profile=new Profile();
