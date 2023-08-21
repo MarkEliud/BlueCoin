@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,7 +20,7 @@ import com.krypt.bluecoin.utils.AddCard;
 
 public class Home extends Fragment {
     TextView add;
-    Button card_;
+    Button card_,Deposit,send;
     RecyclerView recyclerView;
     @Nullable
     @Override
@@ -34,12 +35,19 @@ public class Home extends Fragment {
 
         recyclerView=view.findViewById(R.id.recView);
         card_=view.findViewById(R.id.btn_card);
+        Deposit=view.findViewById(R.id.btn_depo);
 
 
         card_.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 toCard();
+            }
+        });
+        Deposit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "Deposit here", Toast.LENGTH_SHORT).show();
             }
         });
     }

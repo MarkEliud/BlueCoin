@@ -2,8 +2,10 @@
 
     <style name="Theme.BlueCoin" parent="Base.Theme.BlueCoin">
         <!-- Transparent system bars for edge-to-edge. -->
-        <item name="android:navigationBarColor">@android:color/transparent</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
+<!--        <item name="android:navigationBarColor">@android:color/transparent</item>-->
+<!--        <item name="android:statusBarColor">@android:color/transparent</item>-->
         <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
+        <item name="android:navigationBarColor" >@color/lblue</item>
+        <item name="android:statusBarColor" >?attr/colorPrimaryVariant</item>
     </style>
 </resources>

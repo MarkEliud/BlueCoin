@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 />
             <TextView
-                android:textStyle="bold|italic"
+                android:textStyle="italic"
                 android:paddingLeft="25dp"
                 android:textColor="@color/white"
                 android:textSize="15dp"
@@ -82,7 +82,7 @@
         android:layout_margin="21dp"
         >
         <Button
-            android:id="@+id/btn_send"
+            android:id="@+id/btn_depo"
 
             android:padding="45dp"
             android:layout_width="45dp"
