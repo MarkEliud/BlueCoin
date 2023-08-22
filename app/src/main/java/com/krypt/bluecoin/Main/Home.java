@@ -5,7 +5,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +20,7 @@ import com.krypt.bluecoin.utils.AddCard;
 
 public class Home extends Fragment {
     TextView add;
+    Button card_,Deposit,send;
     RecyclerView recyclerView;
     @Nullable
     @Override
@@ -28,14 +32,27 @@ public class Home extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        add=view.findViewById(R.id.addcard);
-        recyclerView=view.findViewById(R.id.recView);
 
-        add.setOnClickListener(new View.OnClickListener() {
+        recyclerView=view.findViewById(R.id.recView);
+        card_=view.findViewById(R.id.btn_card);
+        Deposit=view.findViewById(R.id.btn_depo);
+
+
+        card_.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), AddCard.class));
+                toCard();
             }
         });
+        Deposit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "Deposit here", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void toCard() {
+        startActivity(new Intent(getContext(), CardActivity.class));
     }
 }

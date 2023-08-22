@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,6 +16,7 @@ import com.krypt.bluecoin.R;
 import com.krypt.bluecoin.utils.PaymentMethod_;
 
 public class Send extends Fragment {
+    EditText send;
     Button paymentmethod;
     @Nullable
     @Override
@@ -25,6 +27,8 @@ public class Send extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         paymentmethod=view.findViewById(R.id.paymentmethId);
+        send=view.findViewById(R.id.amnt_sen);
+
         paymentmethod.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

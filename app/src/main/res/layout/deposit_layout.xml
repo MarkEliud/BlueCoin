@@ -13,6 +13,8 @@
 
         />
     <EditText
+        android:id="@+id/txt_depo_amount"
+        android:inputType="number"
   android:layout_margin="21dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,10 +23,13 @@
 
         />
     <Button
+        android:textColor="@color/white"
         android:id="@+id/paymentmethId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Enter payment Method"
+        android:layout_margin="21dp"
+        android:background="@drawable/card_bg"
 
         />
 
