@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import com.krypt.bluecoin.R;
 
-public class PaymentMethod extends AppCompatActivity {
+public class PaymentMethod_ extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

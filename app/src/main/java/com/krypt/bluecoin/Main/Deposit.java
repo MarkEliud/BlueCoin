@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.krypt.bluecoin.R;
-import com.krypt.bluecoin.utils.PaymentMethod;
+import com.krypt.bluecoin.utils.PaymentMethod_;
 
 public class Deposit  extends Fragment {
     Button paymentmethod;
@@ -29,7 +29,7 @@ public class Deposit  extends Fragment {
         paymentmethod.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), PaymentMethod.class));
+                startActivity(new Intent(getContext(), PaymentMethod_.class));
             }
         });
     }

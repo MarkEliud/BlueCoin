@@ -1,42 +1,24 @@
 package com.krypt.bluecoin.User.RegisterPages;
 
-import static com.krypt.bluecoin.utils.Links.VAL_USRNM;
 import static com.krypt.bluecoin.utils.Links.emails;
 import static com.krypt.bluecoin.utils.Links.fnms;
 import static com.krypt.bluecoin.utils.Links.usnms;
 import static com.krypt.bluecoin.utils.Links.snames;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.android.material.textfield.TextInputEditText;
 import com.krypt.bluecoin.R;
 import com.krypt.bluecoin.User.UserModel;
-import com.krypt.bluecoin.utils.PaymentMethod;
-
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class Firstpage extends Fragment {
     Button nextpg,validateusrnm;
