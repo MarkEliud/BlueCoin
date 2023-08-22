@@ -10,4 +10,6 @@ public class Links {
     public static final String URL_REGISTER=url+file+"register.php";
     public static final String VAL_USRNM=url+file+"validate.php";
     public static final String URL_LOGIN=url+file+"login_user.php";
+    public static final String adddep=url+file+"index.php";
+    public static final String userid=url+file+"getUserId.php?username=";
 }

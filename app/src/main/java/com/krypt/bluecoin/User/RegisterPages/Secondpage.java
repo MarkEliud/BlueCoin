@@ -1,13 +1,11 @@
 package com.krypt.bluecoin.User.RegisterPages;
 
 import static com.krypt.bluecoin.utils.Links.URL_REGISTER;
-import static com.krypt.bluecoin.utils.Links.VAL_USRNM;
 import static com.krypt.bluecoin.utils.Links.emails;
 import static com.krypt.bluecoin.utils.Links.fnms;
 import static com.krypt.bluecoin.utils.Links.snames;
 import static com.krypt.bluecoin.utils.Links.usnms;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,7 +29,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.krypt.bluecoin.R;
 import com.krypt.bluecoin.User.UserModel;
-import com.krypt.bluecoin.utils.PaymentMethod;
 
 import org.json.JSONObject;
 

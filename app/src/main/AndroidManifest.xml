@@ -22,7 +22,7 @@
             android:name=".User.VeifyAcc"
             android:exported="false" />
         <activity
-            android:name=".utils.PaymentMethod"
+            android:name=".utils.PaymentMethod_"
             android:exported="false" />
         <activity
             android:name=".utils.AddCard"
