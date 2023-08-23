@@ -9,38 +9,66 @@ android:padding="21dp"
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="8dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="5dp"
         >
         <LinearLayout
             android:gravity="center"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_margin="10dp"
+
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/profile_image"
+                android:layout_width="96dp"
+                android:layout_marginStart="40dp"
+                android:layout_height="96dp"
+                android:src="@drawable/blupay"
+                app:civ_border_width="2dp"
+                app:civ_border_color="@color/lblue"/>
+
             <ImageView
-                android:id="@+id/profileimg_id"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:src="@drawable/account"
+
+
+                android:layout_marginTop="34dp"
+
+                android:id="@+id/edit_prof"
+                android:layout_width="45dp"
+                android:layout_height="23dp"
+                android:src="@drawable/edit"
+
+
 
                 />
+        </LinearLayout>
             <TextView
                 android:id="@+id/username_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Okara Isaiah"
-                android:textSize="21dp"
                 android:textStyle="bold"
+                android:text="verified"
+                android:textSize="21sp"
+
 
                 />
+
             <TextView
+                android:padding="4dp"
                 android:id="@+id/txt_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="verified"
-                android:textSize="21dp"
+                android:textSize="18dp"
                 android:textColor="@color/white"
-                android:background="@color/blue"
+                android:background="@drawable/card_bg"
 
                 />
 

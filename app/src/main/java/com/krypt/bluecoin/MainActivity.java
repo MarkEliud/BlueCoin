@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         bottomNavigationView=findViewById(R.id.bottom_navbar);
         bottomNavigationView.setOnItemSelectedListener(this);
         getSupportFragmentManager().beginTransaction().replace(R.id.container,home).commit();
+       // getSupportActionBar().setTitle("Home");
     }
 
     @Override

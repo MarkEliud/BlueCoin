@@ -23,10 +23,13 @@ import com.krypt.bluecoin.User.UserModel;
 import com.krypt.bluecoin.User.VeifyAcc;
 import com.krypt.bluecoin.utils.SessionHandler;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class Profile extends Fragment {
     private SessionHandler session;
     private UserModel user;
     ImageView profilepic;
+    CircleImageView circleImageView;
     TextView usnm,logout,verfyacc_,txt_status;
     @Nullable
     @Override
@@ -37,7 +40,8 @@ public class Profile extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        profilepic=view.findViewById(R.id.profileimg_id);
+     //   profilepic=view.findViewById(R.id.profileimg_id);
+        circleImageView=view.findViewById(R.id.account_id);
         usnm=view.findViewById(R.id.username_id);
         logout=view.findViewById(R.id.id_logout);
         verfyacc_=view.findViewById(R.id.verify_accoutid);
