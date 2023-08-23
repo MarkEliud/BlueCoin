@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:icon="@drawable/card"
+        android:icon="@drawable/house"
         android:title="Home"
         android:id="@+id/home_id"
         />
@@ -18,7 +18,8 @@
         />
     <item
         android:icon="@drawable/account"
-        android:title="Account"
+
+        android:title="Profile"
         android:id="@+id/account_id"
         />
 </menu>

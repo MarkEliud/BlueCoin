@@ -53,6 +53,81 @@
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
+    <androidx.cardview.widget.CardView
+        android:layout_margin="9dp"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="5dp"
+        >
+        <LinearLayout
+
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            >
+            <LinearLayout
+              android:layout_marginTop="4dp"
+
+            android:layout_marginStart="32dp"
+                android:orientation="vertical"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                >
+            <ImageButton
+                android:id="@+id/depo_btn"
+
+
+
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+
+                android:background="@drawable/money"
+
+                />
+                <TextView
+                    android:textSize="10dp"
+                    android:text="Deposit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="4dp"
+
+                android:layout_marginStart="32dp"
+                android:orientation="vertical"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                >
+                <ImageButton
+                    android:id="@+id/withdraw_btn"
+
+
+
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+
+                    android:background="@drawable/withdrawal"
+
+                    />
+                <TextView
+                    android:textSize="10dp"
+                    android:text="Withdraw"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
 
     <TextView
         android:layout_width="wrap_content"

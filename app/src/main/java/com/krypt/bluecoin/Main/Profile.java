@@ -2,6 +2,7 @@ package com.krypt.bluecoin.Main;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,6 +24,7 @@ import com.krypt.bluecoin.User.UserModel;
 import com.krypt.bluecoin.User.VeifyAcc;
 import com.krypt.bluecoin.utils.SessionHandler;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Profile extends Fragment {
@@ -40,7 +42,7 @@ public class Profile extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-     //   profilepic=view.findViewById(R.id.profileimg_id);
+       profilepic=view.findViewById(R.id.edit_prof);
         circleImageView=view.findViewById(R.id.account_id);
         usnm=view.findViewById(R.id.username_id);
         logout=view.findViewById(R.id.id_logout);
@@ -61,6 +63,16 @@ public class Profile extends Fragment {
         } catch (Exception e) {
             Log.e("ERROR", e.toString());
         }
+        profilepic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SweetAlertDialog pDialog = new SweetAlertDialog(getContext(), SweetAlertDialog.PROGRESS_TYPE);
+                pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                pDialog.setTitleText("Loading");
+                pDialog.setCancelable(false);
+                pDialog.show();
+            }
+        });
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override

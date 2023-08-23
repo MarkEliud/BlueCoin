@@ -13,6 +13,7 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" >?attr/colorPrimaryVariant</item>
         <item name="android:navigationBarColor" >@color/lblue</item>
+        <item name="android:fontFamily" >@font/maven</item>
     </style>
 
     <style name="Theme.BlueCoin" parent="Base.Theme.BlueCoin" />

@@ -8,23 +8,32 @@
     android:layout_height="match_parent"
     tools:context=".utils.PaymentMethod_">
     <androidx.cardview.widget.CardView
+        android:id="@+id/card_mpesa"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         app:cardCornerRadius="7dp"
-        app:cardElevation="21dp"
+        app:cardElevation="6dp"
         android:layout_marginTop="23dp"
         >
         <LinearLayout
             android:gravity="center"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <ImageView
+                android:src="@drawable/mpesa"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                />
+
             <TextView
+                android:layout_marginStart="21dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="M-Pesa"
-                android:textSize="32dp"
+                android:textSize="21dp"
+                android:textStyle="bold"
 
 
 
@@ -34,23 +43,31 @@
 
     </androidx.cardview.widget.CardView>
     <androidx.cardview.widget.CardView
+        android:id="@+id/card_card"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         app:cardCornerRadius="7dp"
-        app:cardElevation="21dp"
+        app:cardElevation="6dp"
         android:layout_marginTop="23dp"
         >
         <LinearLayout
             android:gravity="center"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+            <ImageView
+                android:src="@drawable/credecard"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                />
 
             <TextView
+                android:layout_marginStart="21dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Card"
-                android:textSize="32dp"
+                android:text="Card/Debit"
+                android:textStyle="bold"
+                android:textSize="21dp"
 
 
 
@@ -60,8 +77,9 @@
 
     </androidx.cardview.widget.CardView>
     <androidx.cardview.widget.CardView
+        android:id="@+id/card_other"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         app:cardCornerRadius="7dp"
         android:layout_marginTop="23dp"
         app:cardElevation="7dp"
@@ -76,7 +94,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="other"
-                android:textSize="32dp"
+                android:textSize="21dp"
+                android:textStyle="bold"
 
 
 
@@ -85,16 +104,6 @@
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
-    <TextView
 
-        android:layout_marginTop="21dp"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Blupay 2023"
-        android:textSize="21dp"
-
-
-        />
 
 </LinearLayout>

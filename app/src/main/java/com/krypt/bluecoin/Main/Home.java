@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.krypt.bluecoin.R;
 import com.krypt.bluecoin.User.UserModel;
 import com.krypt.bluecoin.utils.AddCard;
+import com.krypt.bluecoin.utils.PaymentMethod_;
 import com.krypt.bluecoin.utils.SessionHandler;
 
 public class Home extends Fragment {
@@ -26,6 +28,7 @@ public class Home extends Fragment {
     private SessionHandler session;
     private UserModel user;
 //    Button card_,Deposit,send;
+    ImageButton deposit,withdraw;
     RecyclerView recyclerView;
     @Nullable
     @Override
@@ -40,7 +43,8 @@ public class Home extends Fragment {
 
         recyclerView=view.findViewById(R.id.recView);
 //        card_=view.findViewById(R.id.btn_card);
-//        Deposit=view.findViewById(R.id.btn_depo);
+        deposit=view.findViewById(R.id.depo_btn);
+        withdraw=view.findViewById(R.id.withdraw_btn);
 
         wlecometxt=view.findViewById(R.id.welcome_txt);
         try {
@@ -48,7 +52,7 @@ public class Home extends Fragment {
             user = session.getUserDetails();
 
 
-            wlecometxt.setText("Welcome  "+user.getFname());
+            wlecometxt.setText("Welcome back "+user.getFname()+".");
 
 
 
@@ -64,12 +68,18 @@ public class Home extends Fragment {
 //                toCard();
 //            }
 //        });
-//        Deposit.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(getContext(), "Deposit here", Toast.LENGTH_SHORT).show();
-//            }
-//        });
+        deposit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+              startActivity(new Intent(getActivity(), PaymentMethod_.class));
+            }
+        });
+        withdraw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), PaymentMethod_.class));
+            }
+        });
     }
 
     private void toCard() {
