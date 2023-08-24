@@ -130,18 +130,48 @@
     </androidx.cardview.widget.CardView>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:textSize="21dp"
         android:text="Transactions"
         />
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginStart="32dp"
-        android:id="@+id/recView"
+    <ScrollView
 
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:gravity="center"
+
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                />
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginStart="32dp"
+            android:id="@+id/recView"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+        <TextView
+            android:gravity="center"
+            android:textStyle="italic"
+            android:textSize="18sp"
+            android:id="@+id/txt_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No transactions made"
+
+            />
+        </LinearLayout>
+
+    </ScrollView>
+
 
 </LinearLayout>
