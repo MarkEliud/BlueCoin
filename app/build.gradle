@@ -46,6 +46,7 @@ dependencies {
 
     //implementation 'com.stripe:stripe-android:20.28.2'
     implementation 'com.stripe:stripe-android:20.28.2'
+    //implementation "com.airbnb.android:lottie:6.1.0"
     implementation 'com.android.volley:volley:1.2.1'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'

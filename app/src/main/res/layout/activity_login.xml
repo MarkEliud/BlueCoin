@@ -37,6 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Enter your username"
+        app:startIconTint="@color/lblue"
       app:startIconDrawable="@drawable/account"
 
         >
@@ -57,12 +58,15 @@
         android:layout_height="wrap_content"
         app:passwordToggleEnabled="true"
         app:startIconDrawable="@drawable/lock"
+        app:startIconTint="@color/lblue"
+        app:endIconTint="@color/lblue"
         android:hint="Enter your Password"
 
         >
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
             android:inputType="textPassword"
             android:id="@+id/edt_password"
             />
@@ -70,18 +74,23 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:textColor="@color/white"
-        android:background="@color/blue"
         android:id="@+id/btn_login"
-        android:layout_marginTop="21dp"
-       android:layout_marginEnd="21dp"
-        android:layout_marginStart="21dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="21dp"
+        android:layout_marginTop="21dp"
+        android:layout_marginEnd="21dp"
+        android:background="@drawable/card_bg"
         android:text="Log in"
 
+        android:textColor="@color/white"
+
         />
+
     <ProgressBar
+        android:progressTint="@color/lblue"
+
+
         android:id="@+id/progressBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

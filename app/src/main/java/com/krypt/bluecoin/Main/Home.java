@@ -137,10 +137,10 @@ public class Home extends Fragment {
                                 JSONArray jsonArray = jsonObject.getJSONArray("trans");
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject jsn = jsonArray.getJSONObject(i);
-                                    String transid = jsn.getString("transid");
-                                    String amount = jsn.getString("amount");
+                                    String transid = jsn.getString("transID");
+                                    String amount = jsn.getString("transamnt");
                                     String currency = jsn.getString("currency");
-                                    String date = jsn.getString("trandate");
+                                    String date = jsn.getString("transdate");
 
 
                                     TransModel transModel = new TransModel(transid, amount, currency,date);
