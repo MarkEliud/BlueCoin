@@ -9,13 +9,14 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.krypt.bluecoin.R;
 import com.krypt.bluecoin.utils.PaymentMethod_;
 
 public class Deposit  extends Fragment {
-    Button paymentmethod;
+ CardView mpesa,card;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -25,12 +26,10 @@ public class Deposit  extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        paymentmethod=view.findViewById(R.id.paymentmethId);
-        paymentmethod.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getContext(), PaymentMethod_.class));
-            }
-        });
+
+        mpesa=view.findViewById(R.id.mpesa_depo);
+        card=view.findViewById(R.id.card_depo);
+
+
     }
 }
