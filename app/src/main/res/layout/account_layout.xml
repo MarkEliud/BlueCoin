@@ -93,6 +93,8 @@ android:padding="21dp"
         android:layout_height="wrap_content"
         app:cardCornerRadius="8dp"
         app:cardElevation="3dp"
+        android:id="@+id/upload_card_id"
+
         >
         <LinearLayout
             android:orientation="horizontal"

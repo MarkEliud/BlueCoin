@@ -39,6 +39,8 @@
             android:inputType="numberPassword" />
 
         <Button
+            android:textColor="@color/white"
+            android:background="@drawable/card_bg"
             android:id="@+id/addCardButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -52,6 +54,8 @@
             android:layout_marginTop="16dp" />
 
         <Button
+            android:textColor="@color/white"
+            android:background="@drawable/card_bg"
             android:id="@+id/depositButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

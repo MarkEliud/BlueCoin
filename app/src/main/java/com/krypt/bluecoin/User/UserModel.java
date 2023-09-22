@@ -10,13 +10,14 @@ public  class UserModel {
     public String sname;
     public String status;
     public String userID;
+    public String gender;
 
     public UserModel()
     {
 
     }
 
-    public UserModel(String dCreated, String username, String password, String email, String phone, String fname, String sname, String status, String userID) {
+    public UserModel(String dCreated, String username, String password, String email, String phone, String fname, String sname, String status, String userID, String gender) {
         this.dCreated = dCreated;
         this.username = username;
         this.password = password;
@@ -26,6 +27,15 @@ public  class UserModel {
         this.sname = sname;
         this.status = status;
         this.userID = userID;
+        this.gender = gender;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public String getStatus() {

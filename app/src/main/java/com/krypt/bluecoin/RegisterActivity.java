@@ -17,10 +17,14 @@ import android.widget.Toast;
 
 import com.krypt.bluecoin.User.RegisterPages.Firstpage;
 import com.krypt.bluecoin.User.RegisterPages.Secondpage;
+import com.krypt.bluecoin.User.UserModel;
+import com.krypt.bluecoin.utils.SessionHandler;
 
 
 public class RegisterActivity extends AppCompatActivity {
     Firstpage firstpage=new Firstpage();
+    private SessionHandler session;
+    UserModel userModel;
     Secondpage secondpage=new Secondpage();
 
     private ProgressBar progressBar;
@@ -29,6 +33,8 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         getSupportFragmentManager().beginTransaction().replace(R.id.cointainer,firstpage).commit();
+        session = new SessionHandler(RegisterActivity.this);
+        userModel = session.getUserDetails();
 
     }
 

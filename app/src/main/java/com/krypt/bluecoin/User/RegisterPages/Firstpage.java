@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -40,6 +41,7 @@ public class Firstpage extends Fragment {
         snm=view.findViewById(R.id.sname);
         usrnm=view.findViewById(R.id.usernm);
         email=view.findViewById(R.id.email);
+
         //validateusrnm=view.findViewById(R.id.validateusrnm);
 //        nextpg.setVisibility(View.GONE);
 //        email.setVisibility(View.GONE);
@@ -74,6 +76,10 @@ public class Firstpage extends Fragment {
                 userModel.setSname(snm.getText().toString());
                 userModel.setUsername(usrnm.getText().toString());
                 userModel.setEmail(email.getText().toString());
+                if(fnms.isEmpty()||snames.isEmpty()||emails.isEmpty()||snames.isEmpty()){
+                    Toast.makeText(getContext(), "Fill in the fields first", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.cointainer,secondpage).commit();
             }

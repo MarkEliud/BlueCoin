@@ -14,6 +14,7 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.krypt.bluecoin.R;
+import com.krypt.bluecoin.utils.EnterAmount;
 import com.krypt.bluecoin.utils.PaymentMethod_;
 
 public class Send extends Fragment {
@@ -29,6 +30,19 @@ public class Send extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         mpesa=view.findViewById(R.id.mpesa_with);
         card=view.findViewById(R.id.card_with);
+        //getView().getSupportActionBar().setTitle("Send");
+        mpesa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), EnterAmount.class));
+            }
+        });
+        card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), EnterAmount.class));
+            }
+        });
 
 
 

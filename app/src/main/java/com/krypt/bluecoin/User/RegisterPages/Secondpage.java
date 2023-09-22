@@ -6,6 +6,8 @@ import static com.krypt.bluecoin.utils.Links.fnms;
 import static com.krypt.bluecoin.utils.Links.snames;
 import static com.krypt.bluecoin.utils.Links.usnms;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,7 +38,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Secondpage extends Fragment {
-    EditText phoneno,pass,cpass;
+    EditText phoneno,pass,cpass,edt_select;
     ProgressBar progressBar;
     UserModel userModel;
     Button register;
@@ -52,10 +54,20 @@ public class Secondpage extends Fragment {
         register=view.findViewById(R.id.register_btn);
         phoneno=view.findViewById(R.id.phoneno);
         pass=view.findViewById(R.id.pass);
+        edt_select = view.findViewById(R.id.edt_select);
+        edt_select.setFocusable(false);
         cpass=view.findViewById(R.id.cpass);
         progressBar=view.findViewById(R.id.progressBar);
         progressBar.setVisibility(View.GONE);
         userModel=new UserModel();
+
+        edt_select.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                select(v);
+            }
+        });
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,6 +77,7 @@ public class Secondpage extends Fragment {
                 }
                 userModel.setPhone(phoneno.getText().toString());
                 userModel.setPassword(pass.getText().toString());
+                userModel.setGender(edt_select.getText().toString());
               // register(phoneno.getText().toString(),pass.getText().toString());
                 register();
             }
@@ -72,7 +85,7 @@ public class Secondpage extends Fragment {
     }
 
     private void register() {
-        Toast.makeText(getContext(),emails+userModel.getPhone()+userModel.getPassword()+usnms+fnms, Toast.LENGTH_SHORT).show();
+
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_REGISTER,
                 new Response.Listener<String>() {
                     @Override
@@ -100,7 +113,7 @@ public class Secondpage extends Fragment {
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
                 error.printStackTrace();
-                Toast.makeText(getContext(), error.toString(), Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(getContext(), error.toString(), Toast.LENGTH_SHORT).show();
 
             }
         }) {
@@ -113,11 +126,32 @@ public class Secondpage extends Fragment {
                 params.put("password", userModel.getPassword());
                 params.put("firstname", fnms);
                 params.put("lastname", snames);
+                params.put("gender", userModel.getGender());
 
                 return params;
             }
         };
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         requestQueue.add(stringRequest);
+    }
+    public void select(View v) {
+        final android.app.AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+        builder.setTitle("Select");
+        final String[] array = {"Male", "Female","Custom"};
+
+        builder.setSingleChoiceItems(array, -1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                edt_select.setText(array[i]);
+                Toast.makeText(getContext(), array[i], Toast.LENGTH_SHORT).show();
+                dialogInterface.dismiss();
+
+                builder.setNegativeButton("Close", null);
+
+
+            }
+        });
+        builder.show();
+
     }
 }

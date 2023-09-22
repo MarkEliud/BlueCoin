@@ -167,7 +167,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
-                Toast.makeText(LoginActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(LoginActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
                 loginbtn.setVisibility(View.VISIBLE);
 
