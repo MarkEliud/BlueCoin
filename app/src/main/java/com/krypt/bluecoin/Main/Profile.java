@@ -65,7 +65,7 @@ public class Profile extends Fragment {
             user = session.getUserDetails();
 
 
-            usnm.setText(user.getFname() + " " + user.getSname());
+            usnm.setText(user.getFname() + " " + user.getSname()+ " " + user.getUserID());
             txt_status.setText(user.getStatus());
 
 

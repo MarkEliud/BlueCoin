@@ -20,6 +20,7 @@ import com.krypt.bluecoin.Main.Deposit;
 import com.krypt.bluecoin.Main.Home;
 import com.krypt.bluecoin.Main.Profile;
 import com.krypt.bluecoin.Main.Send;
+import com.krypt.bluecoin.utils.AddCard;
 
 public class MainActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener{
     BottomNavigationView bottomNavigationView;
@@ -50,8 +51,9 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
 
                 getSupportFragmentManager().beginTransaction().replace(R.id.container,send).commit();
             else if(id==R.id.deposit_id)
+                startActivity(new Intent(MainActivity.this, AddCard.class));
 
-                getSupportFragmentManager().beginTransaction().replace(R.id.container,deposit).commit();
+             //   getSupportFragmentManager().beginTransaction().replace(R.id.container,deposit).commit();
             else if(id==R.id.account_id)
                 getSupportFragmentManager().beginTransaction().replace(R.id.container,profile).commit();
 
@@ -75,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
 
 
         }else{
-            startActivity(new Intent(MainActivity.this,SettingsActivity.class));
+            startActivity(new Intent(MainActivity.this, AddCard.class));
 
         }
         return true;

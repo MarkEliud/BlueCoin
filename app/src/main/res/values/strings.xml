@@ -63,10 +63,10 @@
     <string name="specify_network_prefs">Specify network preferences for uploads</string>
     <string name="prefs_restricted_mode">prefs_restricted_mode</string>
     <string name="restricted_mode">Restricted Mode can help to hide videos with potentially mature content.No filter is 100% accurate, but it should help you to avoid most of this type of content.</string>
-    <string name="restricted_mode_description">Restricted Mode</string>
+    <string name="restricated_mode_description">Restricted Mode</string>
     <string name="prefs_enable_stats">prefs_enable_stats</string>
     <string name="enable_stats">Enable stats for nerds</string>
-    <string name="restricated_mode_description">yea</string>
+    <string name="restricated_mode_description_">yea</string>
 
     <string-array name="pref_upload_quality_entries">
         <item>360p</item>
