@@ -89,7 +89,7 @@ public class Home extends Fragment {
             user = session.getUserDetails();
 
 
-            wlecometxt.setText("Welcome back "+user.getFname()+".");
+            wlecometxt.setText("Welcome back "+user.getUserID()+".");
 
 
 

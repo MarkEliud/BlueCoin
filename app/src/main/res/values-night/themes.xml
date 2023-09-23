@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.BlueCoin" parent="Theme.AppCompat.DayNight.DarkActionBar">
+    <style name="Base.Theme.BlueCoin" parent="Theme.AppCompat.Light">
         <item name="android:fontFamily" >@font/maven</item>
 
         <item name="android:navigationBarColor">@color/lblue</item>

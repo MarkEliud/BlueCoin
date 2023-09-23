@@ -9,7 +9,7 @@ public  class UserModel {
     public String fname;
     public String sname;
     public String status;
-    public String userID;
+    public static  String userID;
     public String gender;
 
     public UserModel()
@@ -26,7 +26,7 @@ public  class UserModel {
         this.fname = fname;
         this.sname = sname;
         this.status = status;
-        this.userID = userID;
+        UserModel.userID = userID;
         this.gender = gender;
     }
 

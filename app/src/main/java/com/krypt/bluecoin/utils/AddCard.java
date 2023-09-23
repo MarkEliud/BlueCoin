@@ -1,5 +1,8 @@
 package com.krypt.bluecoin.utils;
 
+import static com.krypt.bluecoin.User.UserModel.userID;
+//import static com.krypt.bluecoin.utils.AddCard.BACKEND_URL;
+//import static com.krypt.bluecoin.utils.AddCard.USER_ID;
 import static com.krypt.bluecoin.utils.Links.adddep;
 import static com.krypt.bluecoin.utils.Links.userid;
 
@@ -18,6 +21,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.krypt.bluecoin.R;
 import com.krypt.bluecoin.User.UserModel;
 import com.stripe.android.ApiResultCallback;
@@ -36,7 +41,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddCard extends AppCompatActivity {
-
+     EditText cardNumberEditText;
+     EditText expMonthEditText;
+     EditText expYearEditText ;
+     EditText cvcEditText;
     private Stripe stripe;
     private TextView balanceTextView;
     private Spinner cardSpinner;
@@ -68,11 +76,12 @@ public class AddCard extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(String userId) {
-            if (userId != null && !userId.equals("0")) {
+        protected void onPostExecute(String userid) {
+            if (userid != null && !userid.equals("0")) {
                 // Here, userId is the ID fetched from the backend. You can store it or use it.
-                USER_ID=userId;
-                Toast.makeText(AddCard.this, "userid: "+userId, Toast.LENGTH_SHORT).show();
+                USER_ID=userid;
+                ; user.setUserID(userid);
+                Toast.makeText(AddCard.this, "userid: "+userid, Toast.LENGTH_SHORT).show();
             } else {
                 // Handle user not found or other errors
                 Toast.makeText(AddCard.this, "not found", Toast.LENGTH_SHORT).show();
@@ -103,13 +112,17 @@ public class AddCard extends AppCompatActivity {
             Log.e("ERROR", e.toString());
         }
         fetchUserId(email);
-        final EditText cardNumberEditText = findViewById(R.id.cardNumberEditText);
-        final EditText expMonthEditText = findViewById(R.id.expMonthEditText);
-        final EditText expYearEditText = findViewById(R.id.expYearEditText);
-        final EditText cvcEditText = findViewById(R.id.cvcEditText);
+        fetchUserBalance();
+
+        //   balanceTextView
+        balanceTextView  = findViewById(R.id.balanceTextView);
+
+         cardNumberEditText = findViewById(R.id.cardNumberEditText);
+       expMonthEditText = findViewById(R.id.expMonthEditText);
+        expYearEditText = findViewById(R.id.expYearEditText);
+         cvcEditText = findViewById(R.id.cvcEditText);
         Button addCardButton = findViewById(R.id.addCardButton);
         Button depositButton = findViewById(R.id.depositButton);
-        balanceTextView = findViewById(R.id.balanceTextView);
         cardSpinner = findViewById(R.id.cardSpinner);
 
         addCardButton.setOnClickListener(new View.OnClickListener() {
@@ -132,13 +145,43 @@ public class AddCard extends AppCompatActivity {
                     int amount = 1000; // Example amount: $10
                     depositUsingCard(selectedCard, amount);
                 } else {
-                    // Handle no card selected
+                    Toast.makeText(AddCard.this, "Please select a card", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
-        fetchUserBalance();
         fetchUserCards();
+    }
+    private void fetchUserBalance() {
+        new FetchUserBalanceTask().execute();
+    }
+
+    private class FetchUserBalanceTask extends AsyncTask<Void, Void, String> {
+        @Override
+        protected String doInBackground(Void... voids) {
+            try {
+                URL url = new URL(BACKEND_URL + "?action=get_balance&userId=" + USER_ID);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("GET");
+                int responseCode = conn.getResponseCode();
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    return reader.readLine();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String balance) {
+            if (balance != null) {
+                balanceTextView.setText("$" + balance);  // Or whatever format you prefer
+            } else {
+                Toast.makeText(AddCard.this, "Failed to fetch balance.", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     private void addCard(String cardNumber, int month, int year, String cvc) {
@@ -148,13 +191,20 @@ public class AddCard extends AppCompatActivity {
                 .setExpiryYear(year)
                 .setCvc(cvc)
                 .build();
+//        Required type:CardParams
+//        Provided:
+//        Card
+      //  PaymentMethodCreateParams params = PaymentMethodCreateParams.createCard(cardDetails);
 
-        PaymentMethodCreateParams params = PaymentMethodCreateParams.create(cardDetails, null);
+        PaymentMethodCreateParams params = PaymentMethodCreateParams.create(cardDetails);
 
         stripe.createPaymentMethod(params, new ApiResultCallback<PaymentMethod>() {
             @Override
             public void onSuccess(@NonNull PaymentMethod paymentMethod) {
-                new SaveCardTask().execute(paymentMethod.id);
+              //  new SaveCardTask(cardNumber).execute(paymentMethod.id);
+                new SaveCardTask(cardNumber, paymentMethod.card.brand.name()).execute(paymentMethod.id);
+                //error in paymentMethod.card.brand Required type: String
+              //  Provided:                CardBrand
             }
 
             @Override
@@ -164,35 +214,40 @@ public class AddCard extends AppCompatActivity {
         });
     }
 
-
     private void fetchUserCards() {
         new FetchCardsTask().execute();
     }
 
-    private void fetchUserBalance() {
-        new GetUserBalanceTask().execute();
-    }
-
     private void depositUsingCard(String selectedCard, int amount) {
-        new DepositTask(selectedCard, amount).execute();
+        new DepositTask().execute(selectedCard, String.valueOf(amount));
     }
 
-    private class SaveCardTask extends AsyncTask<String, Void, Boolean> {
+    private class DepositTask extends AsyncTask<String, Void, Boolean> {
         @Override
-        protected Boolean doInBackground(String... paymentMethodIds) {
-            String paymentMethodId = paymentMethodIds[0];
+        protected Boolean doInBackground(String... params) {
+            String paymentMethodId = params[0];
+            String amount = params[1];
+            //https://blupayinc.com/api_files/index.php?action=get_cards&userId=1
+
             try {
-                URL url = new URL(BACKEND_URL + "/save_card");
+                URL url = new URL(BACKEND_URL + "?action=charge");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("POST");
                 conn.setDoOutput(true);
                 OutputStream os = conn.getOutputStream();
-                os.write(("paymentMethodId=" + paymentMethodId + "&userId=" + USER_ID).getBytes());
+                String requestBody = "paymentMethodId=" + paymentMethodId + "&userId=" + USER_ID + "&amount=" + amount;
+                os.write(requestBody.getBytes());
                 os.flush();
                 os.close();
                 int responseCode = conn.getResponseCode();
                 if (responseCode == HttpURLConnection.HTTP_OK) {
-                    return true;
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    String response = reader.readLine();
+                    reader.close();
+
+                    if ("Charge Successful".equals(response)) {
+                        return true;
+                    }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -203,28 +258,115 @@ public class AddCard extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean success) {
             if (success) {
-                fetchUserCards();
+                Toast.makeText(AddCard.this, "Deposit Successful!", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(AddCard.this, "Failed to save card", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddCard.this, "Deposit Failed", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-    private class FetchCardsTask extends AsyncTask<Void, Void, List<String>> {
+
+//    private class SaveCardTask extends AsyncTask<String, Void, Boolean> {
+//        private String cardNumber;
+//
+//        SaveCardTask(String cardNumber) {
+//            this.cardNumber = cardNumber;
+//        }
+//
+//        @Override
+//        protected Boolean doInBackground(String... paymentMethodIds) {
+//            String paymentMethodId = paymentMethodIds[0];
+//            try {
+//                //                //https://blupayinc.com/api_files/index.php?action=get_cards&userId=1
+//                URL url = new URL(BACKEND_URL + "?action=save_card");
+//                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+//                conn.setRequestMethod("POST");
+//                conn.setDoOutput(true);
+//                OutputStream os = conn.getOutputStream();
+//                String requestBody = "paymentMethodId=" + paymentMethodId + "&userId=" + USER_ID + "&cardNumber=" + cardNumber;
+//                os.write(requestBody.getBytes());
+//                os.flush();
+//                os.close();
+//                int responseCode = conn.getResponseCode();
+//                if (responseCode == HttpURLConnection.HTTP_OK) {
+//                    return true;
+//                }
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            return false;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Boolean success) {
+//            if (success) {
+//                fetchUserCards();
+//            } else {
+//                Toast.makeText(AddCard.this, "Failed to save card", Toast.LENGTH_SHORT).show();
+//            }
+//        }
+//    }
+private class SaveCardTask extends AsyncTask<String, Void, String> {
+    private String cardNumber;
+    private String cardBrand;
+
+    SaveCardTask(String cardNumber, String cardBrand) {
+        this.cardNumber = cardNumber;
+        this.cardBrand = cardBrand;
+    }
+
+    @Override
+    protected String doInBackground(String... paymentMethodIds) {
+        String paymentMethodId = paymentMethodIds[0];
+        try {
+            URL url = new URL(BACKEND_URL + "?action=save_card");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setDoOutput(true);
+            OutputStream os = conn.getOutputStream();
+            String requestBody = "paymentMethodId=" + paymentMethodId + "&userId=" + USER_ID + "&cardNumber=" + cardNumber + "&cardBrand=" + cardBrand;
+
+            //String requestBody = "paymentMethodId=" + paymentMethodId + "&userId=" + USER_ID + "&cardNumber=" + cardNumber;
+            os.write(requestBody.getBytes());
+            os.flush();
+            os.close();
+            int responseCode = conn.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                return reader.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    protected void onPostExecute(String response) {
+        if ("Card Saved".equals(response)) {
+            fetchUserCards();
+        } else if ("Card Already Exists".equals(response)) {
+            Toast.makeText(AddCard.this, "This card is already saved.", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(AddCard.this, "Failed to save card", Toast.LENGTH_SHORT).show();
+        }
+    }
+}
+
+    private class FetchCardsTask extends AsyncTask<Void, Void, List<CardDisplayData>> {
         @Override
-        protected List<String> doInBackground(Void... voids) {
-            List<String> fetchedCards = new ArrayList<>();
+        protected List<CardDisplayData> doInBackground(Void... voids) {
+            List<CardDisplayData> fetchedCards = new ArrayList<>();
             try {
-                URL url = new URL(BACKEND_URL + "/get_cards?userId=" + USER_ID);
+                //https://blupayinc.com/api_files/index.php/get_cards
+                //https://blupayinc.com/api_files/index.php?action=get_cards&userId=1
+                URL url = new URL(BACKEND_URL + "?action=get_cards&userId=" + USER_ID);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("GET");
                 int responseCode = conn.getResponseCode();
                 if (responseCode == HttpURLConnection.HTTP_OK) {
                     BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        fetchedCards.add(line);
-                    }
+                    fetchedCards = new Gson().fromJson(reader, new TypeToken<List<CardDisplayData>>(){}.getType());
                     reader.close();
                 }
             } catch (IOException e) {
@@ -234,83 +376,27 @@ public class AddCard extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(List<String> fetchedCards) {
-            userCards.clear();
-            userCards.addAll(fetchedCards);
-            ArrayAdapter<String> cardAdapter = new ArrayAdapter<>(AddCard.this, android.R.layout.simple_spinner_item, userCards);
-            cardAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            cardSpinner.setAdapter(cardAdapter);
-        }
-    }
-
-    private class DepositTask extends AsyncTask<Void, Void, Boolean> {
-        private String paymentMethodId;
-        private int amount;
-
-        DepositTask(String paymentMethodId, int amount) {
-            this.paymentMethodId = paymentMethodId;
-            this.amount = amount;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... voids) {
-            try {
-                URL url = new URL(BACKEND_URL + "/charge");
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setRequestMethod("POST");
-                conn.setDoOutput(true);
-                OutputStream os = conn.getOutputStream();
-                os.write(("paymentMethodId=" + paymentMethodId + "&amount=" + amount + "&userId=" + USER_ID).getBytes());
-                os.flush();
-                os.close();
-                int responseCode = conn.getResponseCode();
-                if (responseCode == HttpURLConnection.HTTP_OK) {
-                    return true;
+        protected void onPostExecute(List<CardDisplayData> fetchedCards) {
+            if (fetchedCards != null) {
+                userCards.clear();
+                List<String> displayCards = new ArrayList<>();
+                for(CardDisplayData data : fetchedCards) {
+                    userCards.add(data.id);
+                    displayCards.add(data.display);
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return false;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean success) {
-            if (success) {
-                fetchUserBalance();
-                Toast.makeText(AddCard.this, "Charge successful", Toast.LENGTH_SHORT).show();
+                ArrayAdapter<String> cardAdapter = new ArrayAdapter<>(AddCard.this, android.R.layout.simple_spinner_item, displayCards);
+                cardAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                cardSpinner.setAdapter(cardAdapter);
             } else {
-                Toast.makeText(AddCard.this, "Charge failed", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(AddCard.this, "", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddCard.this, "Failed to fetch cards. Please try again later.", Toast.LENGTH_LONG).show();
             }
         }
+
     }
 
-
-    private class GetUserBalanceTask extends AsyncTask<Void, Void, Double> {
-        @Override
-        protected Double doInBackground(Void... voids) {
-            double balance = 0.0;
-            try {
-                URL url = new URL(BACKEND_URL + "/get_user_balance?userId=" + USER_ID);
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setRequestMethod("GET");
-                int responseCode = conn.getResponseCode();
-                if (responseCode == HttpURLConnection.HTTP_OK) {
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                    String line = reader.readLine();
-                    if (line != null) {
-                        balance = Double.parseDouble(line);
-                    }
-                    reader.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return balance;
-        }
-
-        @Override
-        protected void onPostExecute(Double balance) {
-            balanceTextView.setText(String.format("Balance: $%.2f", balance));
-        }
+    private class CardDisplayData {
+        public String id;
+        public String display;
     }
 }
