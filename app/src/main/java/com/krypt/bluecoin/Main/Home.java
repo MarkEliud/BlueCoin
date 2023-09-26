@@ -134,7 +134,9 @@ public class Home extends Fragment {
 
 
                             if (status.equals("1")) {
-                                JSONArray jsonArray = jsonObject.getJSONArray("trans");
+                                JSONArray jsonArray = jsonObject.getJSONArray("details");
+
+                               // JSONArray jsonArray = jsonObject.getJSONArray("trans");
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject jsn = jsonArray.getJSONObject(i);
                                     String transid = jsn.getString("transID");
