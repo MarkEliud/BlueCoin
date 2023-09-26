@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,13 +35,16 @@ public class Send extends Fragment {
         mpesa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), EnterAmount.class));
+                Toast.makeText(getContext(), "under dev", Toast.LENGTH_SHORT).show();
+
+                // startActivity(new Intent(getContext(), EnterAmount.class));
             }
         });
         card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), EnterAmount.class));
+                Toast.makeText(getContext(), "under dev", Toast.LENGTH_SHORT).show();
+             //   startActivity(new Intent(getContext(), EnterAmount.class));
             }
         });
 

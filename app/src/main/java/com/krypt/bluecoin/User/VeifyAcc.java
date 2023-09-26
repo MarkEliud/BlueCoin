@@ -1,5 +1,55 @@
 package com.krypt.bluecoin.User;
 
+import static com.krypt.bluecoin.utils.Links.file;
+import static com.krypt.bluecoin.utils.Links.url;
+
+import android.app.NotificationChannel;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.provider.MediaStore;
+import androidx.core.app.NotificationCompat;
+import android.app.NotificationManager;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import android.app.Activity;
+
+import android.app.ProgressDialog;
+
+import android.content.Intent;
+
+import android.graphics.Bitmap;
+
+
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+
+
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+
+
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
+import com.krypt.bluecoin.R;
+import com.krypt.bluecoin.utils.SessionHandler;
+
+import java.io.IOException;
+
+import java.io.File;
 import static com.krypt.bluecoin.utils.Links.URL_UPLOAD_ID;
 import static com.krypt.bluecoin.utils.Links.userid;
 
@@ -42,24 +92,33 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class VeifyAcc extends AppCompatActivity {
+    private static final int REQUEST_VIDEO_CAPTURE = 101;
+    private Uri videoUri;
+    private NotificationCompat.Builder notificationBuilder;
+    private NotificationManager notificationManager;
     private ProgressDialog progressBar;
-    ImageView imageView,back;
-    Button id,video;
-    Bitmap bitmap,bitback;
+    ImageView imageView, back;
+   // private static final int REQUEST_VIDEO_CAPTURE = 101;
+
+    Button id, video;
+    Bitmap bitmap, bitback;
     private SessionHandler session;
     private UserModel user;
 
+    private static final int REQUEST_STORAGE_PERMISSION = 300;
+    private static final int REQUEST_CAMERA_PERMISSION = 200;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_veify_acc);
         getSupportActionBar().setTitle("Verification");
+        createNotificationChannel();
 
-         back=findViewById(R.id.image_id_back);
-        imageView=findViewById(R.id.image_id_front);
-        id=findViewById(R.id.passport_id);
-        video=findViewById(R.id.video_id);
+        back = findViewById(R.id.image_id_back);
+        imageView = findViewById(R.id.image_id_front);
+        id = findViewById(R.id.passport_id);
+        video = findViewById(R.id.video_id);
         session = new SessionHandler(getApplicationContext());
         user = session.getUserDetails();
 
@@ -67,71 +126,158 @@ public class VeifyAcc extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 uploadId();
-
             }
         });
         video.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                dispatchTakeVideoIntent();
+//                Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+//                takeVideoIntent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 3);
+//                if (takeVideoIntent.resolveActivity(getPackageManager()) != null) {
+//                    startActivityForResult(takeVideoIntent, REQUEST_VIDEO_CAPTURE);
+//                }
             }
         });
 
-        ActivityResultLauncher<Intent> activityResultLauncher=registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-            @Override
-            public void onActivityResult(ActivityResult result) {
-                if(result.getResultCode()== Activity.RESULT_OK){
-                    Intent data=result.getData();
-                    Uri uri=data.getData();
-                    try {
-                        bitmap= MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
-                        imageView.setImageBitmap(bitmap);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
+        ActivityResultLauncher<Intent> frontImageLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                        Uri uri = result.getData().getData();
+                        try {
+                            bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                            imageView.setImageBitmap(bitmap);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
+                });
 
-                }
-            }
-        });
-        ActivityResultLauncher<Intent> activityResultLauncher_=registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-            @Override
-            public void onActivityResult(ActivityResult result) {
-                if(result.getResultCode()== Activity.RESULT_OK){
-                    Intent data=result.getData();
-                    Uri uri=data.getData();
-                    try {
-                        bitback= MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
-                        back.setImageBitmap(bitback);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
+        ActivityResultLauncher<Intent> backImageLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                        Uri uri = result.getData().getData();
+                        try {
+                            bitback = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                            back.setImageBitmap(bitback);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
+                });
 
-                }
-            }
-        });
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent in=new Intent(Intent.ACTION_PICK);
-                in.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                activityResultLauncher.launch(in);
-
-            }
-        });
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent in=new Intent(Intent.ACTION_PICK);
-                in.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                activityResultLauncher_.launch(in);
-
-            }
+        imageView.setOnClickListener(v -> {
+            Intent in = new Intent(Intent.ACTION_PICK);
+            in.setType("image/*");
+            frontImageLauncher.launch(in);
         });
 
+        back.setOnClickListener(v -> {
+            Intent in = new Intent(Intent.ACTION_PICK);
+            in.setType("image/*");
+            backImageLauncher.launch(in);
+        });
+    }
+    private void createNotificationChannel() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel("upload_channel", "Video Uploads", NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+private void dispatchTakeVideoIntent() {
+    Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+    if (takeVideoIntent.resolveActivity(getPackageManager()) != null) {
+        startActivityForResult(takeVideoIntent, REQUEST_VIDEO_CAPTURE);
+    }
+}
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_VIDEO_CAPTURE && resultCode == RESULT_OK) {
+            videoUri = data.getData();
+            new UploadVideoTask().execute(videoUri);
+        }
     }
 
+    private class UploadVideoTask extends AsyncTask<Uri, Integer, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+           // NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(VeifyAcc.this, "upload_channel")
+            notificationBuilder = new NotificationCompat.Builder(VeifyAcc.this, "upload_channel")
+
+                    .setSmallIcon(android.R.drawable.stat_sys_upload)
+                    .setContentTitle("Uploading Video")
+                    .setContentText("Progress...")
+                    .setProgress(100, 0, false);
+            notificationManager.notify(1, notificationBuilder.build());
+        }
+
+        @Override
+        protected String doInBackground(Uri... params) {
+            try {
+                File videoFile = new File(FileUtils.getPath(VeifyAcc.this, params[0]));
+               // Cannot resolve method 'publishProgress(long)'
+               // ProgressRequestBody requestFile = new ProgressRequestBody(videoFile, percentage -> publishProgress(percentage));
+                ProgressRequestBody requestFile = new ProgressRequestBody(videoFile, new ProgressRequestBody.ProgressListener() {
+                    @Override
+                    public void update(long bytesWritten, long contentLength) {
+                        int percentage = (int) ((bytesWritten * 100) / contentLength);
+                        publishProgress(percentage);
+                    }
+                });
+
+                MultipartBody.Part videoPart = MultipartBody.Part.createFormData("video", videoFile.getName(), requestFile);
+                RequestBody clientIdPart = RequestBody.create(MediaType.parse("text/plain"), user.getUserID());
+
+                OkHttpClient client = new OkHttpClient.Builder().build();
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(url + file)
+                        .client(client)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+
+                ApiService apiService = retrofit.create(ApiService.class);
+                Call<ResponseBody> call = apiService.uploadVideo(videoPart, clientIdPart);
+                retrofit2.Response<ResponseBody> response = call.execute();
+
+                if (response.isSuccessful()) {
+                    return "Upload successful!";
+                } else {
+                    return "Upload failed: " + response.message();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "Upload failed: " + e.getMessage();
+            }
+        }
 
 
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            notificationBuilder.setProgress(100, values[0], false);
+            notificationManager.notify(1, notificationBuilder.build());
+        }
+        @Override
+        protected void onPostExecute(String result) {
+            if (result.equals("Upload successful!")) {
+                notificationManager.cancel(1); // This cancels the notification with ID 1
+            } else {
+                notificationBuilder.setContentText(result)
+                        .setProgress(0, 0, false)
+                        .setOngoing(false);
+                notificationManager.notify(1, notificationBuilder.build());
+            }
+        }
+
+    }
     private void uploadId() {
         progressBar=new ProgressDialog(VeifyAcc.this);
         progressBar.setMessage("Uploading");
@@ -204,6 +350,5 @@ public class VeifyAcc extends AppCompatActivity {
         else Toast.makeText(VeifyAcc.this, "Select your ID back and front", Toast.LENGTH_SHORT).show();
     }
 
-
-    }
+}
 
